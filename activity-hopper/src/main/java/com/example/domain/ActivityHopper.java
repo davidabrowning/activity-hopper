@@ -26,4 +26,19 @@ public class ActivityHopper {
         return activitiesList.contains(a);
     }
 
+    public int getSize() {
+        return activitiesList.size();
+    }
+
+    public int getNumDeclinedActivities() {
+        int count = (int) activitiesList.stream()
+            .filter(a -> a.isDeclined())
+            .count();
+        return count;
+    }
+
+    public Activity getRandomActivity() {
+        return activitiesList.get(0);
+    }
+
 }

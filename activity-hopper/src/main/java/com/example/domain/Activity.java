@@ -38,4 +38,16 @@ public class Activity {
     public boolean isDeclined() {
         return declined;
     }
+
+    public boolean equals(Object o) {
+        if (o.getClass() != this.getClass()) {
+            return false;
+        }
+        Activity newActivity = (Activity) o;
+        return this.getName().equals(newActivity.getName());
+    }
+
+    public void decline() {
+        this.declined = true;
+    }
 }

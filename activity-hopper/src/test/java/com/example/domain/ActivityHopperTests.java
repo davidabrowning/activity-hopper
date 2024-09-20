@@ -12,6 +12,9 @@ public class ActivityHopperTests {
     @Before
     public void setup() {
         testActivityHopper = new ActivityHopper();
+        testActivityHopper.add(new Activity("Go to the gym"));
+        testActivityHopper.add(new Activity("Go for a walk"));
+        testActivityHopper.add(new Activity("Have a snack"));
     }
 
     @Test
@@ -39,8 +42,27 @@ public class ActivityHopperTests {
     }
 
     @Test
+    public void declinedActivitiesIncreasesByOneAfterDecliningActivity() {
+        Activity declinedActivity = new Activity("Task 789");
+        testActivityHopper.add(declinedActivity);
+        int initialDeclinedActivitiesSize = testActivityHopper.getNumDeclinedActivities();
+        declinedActivity.decline();
+        int finalDeclinedActivitiesSize = testActivityHopper.getNumDeclinedActivities();
+        assertEquals(initialDeclinedActivitiesSize + 1, finalDeclinedActivitiesSize);
+    }
+
+    @Test
     public void selectRandomEventuallySelectsAddedActivity() {
-        assertTrue(false);
+        Activity needle = new Activity("Go for a walk");
+        boolean foundNeedle = false;
+        while(testActivityHopper.getSize() > testActivityHopper.getNumDeclinedActivities()) {
+            Activity a = testActivityHopper.getRandomActivity();
+            if (a.equals(needle)) {
+                foundNeedle = true;
+            }
+            a.decline();
+        }
+        assertTrue(foundNeedle);
     }
     
 }
