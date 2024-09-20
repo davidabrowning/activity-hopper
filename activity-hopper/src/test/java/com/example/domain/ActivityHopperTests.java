@@ -10,7 +10,7 @@ public class ActivityHopperTests {
     private ActivityHopper testActivityHopper;
 
     @Before
-    void setup() {
+    public void setup() {
         testActivityHopper = new ActivityHopper();
     }
 

@@ -16,11 +16,14 @@ public class ActivityHopper {
     }
 
     public void add(Activity a) {
-        return;
+        if (activitiesList.contains(a)) {
+            return;
+        }
+        activitiesList.add(a);
     }
 
     public boolean contains(Activity a) {
-        return false;
+        return activitiesList.contains(a);
     }
 
 }
