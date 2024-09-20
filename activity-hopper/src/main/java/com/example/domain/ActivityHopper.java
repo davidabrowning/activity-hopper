@@ -15,4 +15,12 @@ public class ActivityHopper {
         activitiesList = new ArrayList<>();
     }
 
+    public void add(Activity a) {
+        return;
+    }
+
+    public boolean contains(Activity a) {
+        return false;
+    }
+
 }
