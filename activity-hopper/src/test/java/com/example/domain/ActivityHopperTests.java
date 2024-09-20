@@ -26,5 +26,21 @@ public class ActivityHopperTests {
         Activity foldLaundry = new Activity("Fold laundry");
         assertFalse(testActivityHopper.contains(foldLaundry));
     }
+
+    @Test
+    public void sizeDoesNotIncreaseWhenAddingTwoActivitiesWithSameName() {
+        Activity a1 = new Activity("Task 23");
+        Activity a2 = new Activity("Task 23");
+        int initialSize = testActivityHopper.getSize();
+        testActivityHopper.add(a1);
+        testActivityHopper.add(a2);
+        assertEquals(initialSize + 1, testActivityHopper.getSize());
+
+    }
+
+    @Test
+    public void selectRandomEventuallySelectsAddedActivity() {
+        assertTrue(false);
+    }
     
 }
