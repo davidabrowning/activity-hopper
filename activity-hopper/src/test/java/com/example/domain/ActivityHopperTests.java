@@ -12,57 +12,68 @@ public class ActivityHopperTests {
     @Before
     public void setup() {
         testActivityHopper = new ActivityHopper();
-        testActivityHopper.add(new Activity("Go to the gym"));
-        testActivityHopper.add(new Activity("Go for a walk"));
-        testActivityHopper.add(new Activity("Have a snack"));
+        testActivityHopper.add("Go for a walk");
+        testActivityHopper.add("Take a nap");
+        testActivityHopper.add("Tidy");
     }
 
     @Test
     public void containsAddedActivity() {
-        Activity foldLaundry = new Activity("Fold laundry");
-        testActivityHopper.add(foldLaundry);
-        assertTrue(testActivityHopper.contains(foldLaundry));
+        testActivityHopper.add("Fold laundry");
+        assertTrue(testActivityHopper.contains("Fold laundry"));
     }
 
     @Test
     public void doesNotContainUnaddedActivity() {
-        Activity foldLaundry = new Activity("Fold laundry");
-        assertFalse(testActivityHopper.contains(foldLaundry));
+        assertFalse(testActivityHopper.contains("Fold laundry"));
     }
 
     @Test
     public void sizeDoesNotIncreaseWhenAddingTwoActivitiesWithSameName() {
-        Activity a1 = new Activity("Task 23");
-        Activity a2 = new Activity("Task 23");
         int initialSize = testActivityHopper.getSize();
-        testActivityHopper.add(a1);
-        testActivityHopper.add(a2);
+        testActivityHopper.add("Task 123");
+        testActivityHopper.add("Task 123");
         assertEquals(initialSize + 1, testActivityHopper.getSize());
 
     }
 
     @Test
-    public void declinedActivitiesIncreasesByOneAfterDecliningActivity() {
-        Activity declinedActivity = new Activity("Task 789");
-        testActivityHopper.add(declinedActivity);
-        int initialDeclinedActivitiesSize = testActivityHopper.getNumDeclinedActivities();
-        declinedActivity.decline();
-        int finalDeclinedActivitiesSize = testActivityHopper.getNumDeclinedActivities();
-        assertEquals(initialDeclinedActivitiesSize + 1, finalDeclinedActivitiesSize);
+    public void closedActivitiesIncreasesByOneAfterSelectingActivity() {
+        int initialClosedActivities = testActivityHopper.getNumClosedActivities();
+        testActivityHopper.getRandomActivity();
+        int finalClosedActivities = testActivityHopper.getNumClosedActivities();
+        assertEquals(initialClosedActivities + 1, finalClosedActivities);
     }
 
     @Test
     public void selectRandomEventuallySelectsAddedActivity() {
-        Activity needle = new Activity("Go for a walk");
         boolean foundNeedle = false;
-        while(testActivityHopper.getSize() > testActivityHopper.getNumDeclinedActivities()) {
-            Activity a = testActivityHopper.getRandomActivity();
-            if (a.equals(needle)) {
+        while(testActivityHopper.getSize() > 0) {
+            String activity = testActivityHopper.getRandomActivity();
+            if (activity.equals("Go for a walk")) {
                 foundNeedle = true;
             }
-            a.decline();
         }
         assertTrue(foundNeedle);
+    }
+
+    @Test
+    public void selectRandomDoesNotAlwaysSelectSameActivity() {
+        String firstSelectedActivity = null;
+        boolean foundADifferentActivity = false;
+        for (int i = 0; i < 100; i++) {
+            testActivityHopper = new ActivityHopper();
+            testActivityHopper.add("Task 1");
+            testActivityHopper.add("Task 2");
+            testActivityHopper.add("Task 3");
+            String activity = testActivityHopper.getRandomActivity();
+            if (i == 0) {
+                firstSelectedActivity = activity;
+            } else {
+                foundADifferentActivity = !(activity.equals(firstSelectedActivity));
+            }
+        }
+        assertTrue(foundADifferentActivity);
     }
     
 }

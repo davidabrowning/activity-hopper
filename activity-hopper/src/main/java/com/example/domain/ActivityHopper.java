@@ -4,41 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Holds a collection of Activities
+ * Holds a collection of String activities
  */
 public class ActivityHopper {
     
     // Instance variables
-    List<Activity> activitiesList;
+    List<String> openActivities;
+    List<String> closedActivities;
 
     public ActivityHopper() {
-        activitiesList = new ArrayList<>();
+        openActivities = new ArrayList<>();
+        closedActivities = new ArrayList<>();
     }
 
-    public void add(Activity a) {
-        if (activitiesList.contains(a)) {
+    public void add(String a) {
+        if (openActivities.contains(a)) {
             return;
         }
-        activitiesList.add(a);
+        openActivities.add(a);
     }
 
-    public boolean contains(Activity a) {
-        return activitiesList.contains(a);
+    public boolean contains(String a) {
+        return openActivities.contains(a);
     }
 
     public int getSize() {
-        return activitiesList.size();
+        return openActivities.size();
     }
 
-    public int getNumDeclinedActivities() {
-        int count = (int) activitiesList.stream()
-            .filter(a -> a.isDeclined())
-            .count();
-        return count;
+    public int getNumClosedActivities() {
+        return closedActivities.size();
     }
 
-    public Activity getRandomActivity() {
-        return activitiesList.get(0);
+    public String getRandomActivity() {
+        int activityNum = (int) (Math.random() * openActivities.size());
+        String activity = openActivities.get(activityNum);
+        openActivities.remove(activity);
+        closedActivities.add(activity);
+        return activity;
     }
 
 }
